@@ -139,4 +139,4 @@ dmypy.json
 cython_debug/
 
 # Personal User Configurations
-*.yaml/
+keys.yaml

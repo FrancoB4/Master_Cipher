@@ -1,5 +1,5 @@
-from rail_fence_cipher import RailFenceCipher
-from vigenere_cipher import VigenereCipher
+from .rail_fence_cipher import RailFenceCipher
+from .vigenere_cipher import VigenereCipher
 
 
 class MasterCipher:

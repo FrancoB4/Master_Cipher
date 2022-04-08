@@ -1,7 +1,7 @@
 import yaml
 import PySimpleGUI as psg
 from random import choice
-from auxiliary_functions import save_key, use_key, new_keys_file
+from .functions import save_key, use_key, new_keys_file
 
 
 def have_key() -> bool:
@@ -16,7 +16,7 @@ def have_key() -> bool:
     return values[0]
 
 
-def create_new_key():
+def create_new_key(path: str) -> None:
     key = ''
 
     window = psg.Window('Creando una nueva configuración', [
@@ -41,10 +41,10 @@ def create_new_key():
     for _ in range(length):
         key += choice('abcdefghijklmnopqrstuvwxyz!"#$%&/()=?¡{}[]+*-_<>ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-    save_key(name, key, password, rails)
+    save_key(path, name, key, password, rails)
 
 
-def copy_new_key():
+def copy_new_key(path: str) -> None:
     window = psg.Window('Importando una configuración', [
         [psg.Text('Cual sera el nombre de esta configuración?')],
         [psg.Input()],
@@ -64,13 +64,13 @@ def copy_new_key():
     rails = int(values[2])
     password = values[3]
 
-    save_key(name, key, password, rails)
+    save_key(path, name, key, password, rails)
 
 
-def select_configuration() -> (str, int):
+def select_configuration(path: str) -> (str, int):
     configs = []
 
-    with open('./keys.yaml', 'r', encoding='utf-8') as doc:
+    with open(path, 'r', encoding='utf-8') as doc:
         document = yaml.load(doc, Loader=yaml.FullLoader)['keys']
         for config in document.keys():
             configs.append(config)
@@ -88,13 +88,13 @@ def select_configuration() -> (str, int):
         window.close()
         print(values[0])
         try:
-            key, rails = use_key(values[0], values[1])
+            key, rails = use_key(path, values[0], values[1])
             return key, rails
         except KeyError as ke:
             psg.Popup(ke, text_color='red', button_color=('red', 'white'), background_color='black')
             break
 
-    new_keys_file()
+    new_keys_file(path)
     psg.Popup('Se han realizado demasiados intentos erroneos, por seguridad se eliminaran las'
               'configuraciones guardadas')
 
@@ -117,10 +117,15 @@ def show(res):
     window = psg.Window('Resultados', [
         [psg.Text('El resultado de la operación es: ')],
         [psg.Input(default_text=res)],
-        [psg.Ok(), psg.Cancel()]
+        [psg.Ok(), psg.Cancel(), psg.Button('Cambiar configuración')]
     ])
 
-    _ = window.read()
+    events, _ = window.read()
     window.close()
 
-    psg.Popup('Adios!')
+    if events == 'Ok':
+        return True
+    elif events == 'Cambiar configuración':
+        psg.Popup('Próximamente!')
+    else:
+        psg.Popup('Adios!')

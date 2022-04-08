@@ -1,39 +1,49 @@
-from auxiliary_functions import use_key, new_keys_file, save_key
-from auxiliary_gui_functions import have_key, create_new_key, copy_new_key, select_configuration, application, show
-from master_cipher import MasterCipher
+from Scripts.auxiliary.gui_builder import *
+from Scripts.classes.master_cipher import MasterCipher
+
+PATH = './keys.yaml'
 
 
 def run():
     # Evalúa si existe un archivo de llaves, en caso de que no, crea uno.
     try:
-        open('./keys.yaml', 'r', encoding='utf-8')
+        open(PATH, 'r', encoding='utf-8')
     except:
         # Creamos un archivo nuevo de llaves
-        new_keys_file()
+        new_keys_file(PATH)
 
         # Mostramos una ventana para cargar o crear una llave
         have = have_key()
 
         # Si tiene una llave, que la introduzca, si no, crearemos una nueva
         if have:
-            copy_new_key()
+            copy_new_key(PATH)
         else:
-            create_new_key()
+            create_new_key(PATH)
 
-    key, rails = select_configuration()
+    # Abrimos la pestaña para cargar una configuración
+    key, rails = select_configuration(PATH)
 
-    encoder = MasterCipher(key, n=rails)
+    # Abrimos la pestaña principal de la aplicación, y retornamos los valores ingresados
+    # Para que la ejecución no termine a la primera vez, creamos un bucle
+    while True:
+        # Creamos un objeto que instancie el encriptador
+        encoder = MasterCipher(key, n=rails)
+        text, encode = application()
 
-    text, encode = application()
+        if encode:
+            result = encoder.encode(text)
+        else:
+            result = encoder.decode(text)
 
-    result = ''
+        keep_encoding = show(result)
 
-    if encode:
-        result = encoder.encode(text)
-    else:
-        result = encoder.decode(text)
+        if keep_encoding:
+            pass
+        else:
+            break
 
-    show(result)
+    print('All works very well, keep improving')
 
 
 if __name__ == '__main__':

@@ -21,8 +21,9 @@ def shuffle_string(string: str) -> str:
     return ''.join(shuffled_string)
 
 
-def save_key(name, key, password, rails):
-    with open('./keys.yaml', 'r',  encoding='utf-8') as keys:
+def save_key(path: str, name: str, key: str, password: str, rails: int) -> None:
+
+    with open(path, 'r', encoding='utf-8') as keys:
         document = yaml.load(keys, Loader=yaml.FullLoader)
 
         # next_key = len(document['keys'].values())
@@ -30,18 +31,18 @@ def save_key(name, key, password, rails):
 
         document['keys'][name] = new_key
 
-    with open('./keys.yaml', 'w',  encoding='utf-8') as keys:
+    with open(path, 'w', encoding='utf-8') as keys:
         yaml.dump(document, keys, allow_unicode=True)
 
 
-def new_keys_file():
-    with open('./keys.yaml', 'w',  encoding='utf-8') as keys:
+def new_keys_file(path: str):
+    with open(path, 'w', encoding='utf-8') as keys:
         yaml.dump({'keys': {'control': {'working': 'True'}}}, keys, allow_unicode=True)
 
 
-def use_key(configuration, password):
+def use_key(path, configuration, password):
     password_aux = password[:]
-    with open('./keys.yaml', 'r',  encoding='utf-8') as keys:
+    with open(path, 'r', encoding='utf-8') as keys:
         document = yaml.load(keys, Loader=yaml.FullLoader)['keys'][configuration]
 
         if document['password'] == password_aux:
@@ -50,6 +51,7 @@ def use_key(configuration, password):
 
 
 def run():
+    pass
     # testing functions
 
     # string = 'abcdefghijklmnopqrstuvwxyz!"#$%&/()=?¡{}[]+*-_<>.:,;|°¬´¨`^@~ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -60,7 +62,7 @@ def run():
 
     # save('Llave_1', 'Contraseña_1')
 
-    use_key(1, 'contraseña')
+    # use_key(1, 'contraseña')
 
 
 if __name__ == '__main__':
