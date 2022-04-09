@@ -1,6 +1,7 @@
 from Scripts.auxiliary.gui_builder import *
 from Scripts.classes.master_cipher import MasterCipher
 
+
 PATH = './keys.yaml'
 
 
@@ -8,7 +9,7 @@ def run():
     # Evalúa si existe un archivo de llaves, en caso de que no, crea uno.
     try:
         open(PATH, 'r', encoding='utf-8')
-    except:
+    except OSError:
         # Creamos un archivo nuevo de llaves
         new_keys_file(PATH)
 
@@ -27,6 +28,7 @@ def run():
     # Abrimos la pestaña principal de la aplicación, y retornamos los valores ingresados
     # Para que la ejecución no termine a la primera vez, creamos un bucle
     while True:
+        
         # Creamos un objeto que instancie el encriptador
         encoder = MasterCipher(key, n=rails)
         text, encode = application()
