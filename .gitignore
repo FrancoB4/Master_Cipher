@@ -140,3 +140,4 @@ cython_debug/
 
 # Personal User Configurations
 keys.yaml
+tasks.py

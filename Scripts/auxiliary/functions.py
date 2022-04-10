@@ -72,7 +72,8 @@ def use_key(path: str, configuration: str, password: str) -> Tuple[str, int]:
 
     password_aux = password[:]
     with open(path, 'r', encoding='utf-8') as keys:
-        document = yaml.load(keys, Loader=yaml.FullLoader)['keys'][configuration]
+        document = yaml.load(keys, Loader=yaml.FullLoader)[
+            'keys'][configuration]
 
         if document['password'] == password_aux:
             print('done!')

@@ -6,10 +6,12 @@ PATH = './keys.yaml'
 
 
 def run():
+
     # Evalúa si existe un archivo de llaves, en caso de que no, crea uno.
     try:
         open(PATH, 'r', encoding='utf-8')
     except OSError:
+        
         # Creamos un archivo nuevo de llaves
         new_keys_file(PATH)
 
@@ -20,7 +22,7 @@ def run():
         if have:
             copy_new_key(PATH)
         else:
-            create_new_key(PATH)
+            set_key_params(PATH)
 
     # Abrimos la pestaña para cargar una configuración
     key, rails = select_configuration(PATH)
@@ -28,7 +30,7 @@ def run():
     # Abrimos la pestaña principal de la aplicación, y retornamos los valores ingresados
     # Para que la ejecución no termine a la primera vez, creamos un bucle
     while True:
-        
+
         # Creamos un objeto que instancie el encriptador
         encoder = MasterCipher(key, n=rails)
         text, encode = application()
@@ -38,6 +40,7 @@ def run():
         else:
             result = encoder.decode(text)
 
+        # Devolvera True si se presiona el boton 'Ok', y False si se presiona 'Cancel', terminando la ejecucion en este ultimo caso
         keep_encoding = show(result)
 
         if keep_encoding:
