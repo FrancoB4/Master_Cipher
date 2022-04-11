@@ -7,22 +7,24 @@ PATH = './keys.yaml'
 
 def run():
 
-    # Evalúa si existe un archivo de llaves, en caso de que no, crea uno.
+    # Evalúa si existe un archivo de configuraciones, en caso de que no, crea uno.
     try:
         open(PATH, 'r', encoding='utf-8')
+        if len(yaml.load(open(PATH, 'r', encoding='utf8'), Loader=yaml.FullLoader)['keys']) == 1:
+            raise OSError('El archivo de configuraciones es el por defecto.')
     except OSError:
         
         # Creamos un archivo nuevo de llaves
         new_keys_file(PATH)
 
         # Mostramos una ventana para cargar o crear una llave
-        have = have_key()
+        have = have_configuration()
 
         # Si tiene una llave, que la introduzca, si no, crearemos una nueva
         if have:
-            copy_new_key(PATH)
+            import_configuration(PATH)
         else:
-            set_key_params(PATH)
+            set_configuration_params(PATH)
 
     # Abrimos la pestaña para cargar una configuración
     key, rails = select_configuration(PATH)
@@ -40,7 +42,8 @@ def run():
         else:
             result = encoder.decode(text)
 
-        # Devolvera True si se presiona el boton 'Ok', y False si se presiona 'Cancel', terminando la ejecucion en este ultimo caso
+        # Devolverá True si se presiona el botón 'Ok', y False si se presiona 'Cancel', terminando la ejecución en
+        # este último caso
         keep_encoding = show(result)
 
         if keep_encoding:

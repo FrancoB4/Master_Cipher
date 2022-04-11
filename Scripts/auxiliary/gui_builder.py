@@ -6,7 +6,7 @@ from typing import Tuple
 from .functions import save_key, use_key, new_keys_file
 
 
-def have_key() -> bool:
+def have_configuration() -> bool:
     """If there isn't any key file, creates a window where the user is asked if they have a key and want to import it.
 
     Returns:
@@ -18,13 +18,17 @@ def have_key() -> bool:
         [psg.Radio('Si', 1), psg.Radio('No', 1, default=True)],
         [psg.Ok(), psg.Cancel()]
     ])
-    _, values = window.read()
+    event, values = window.read()
     window.close()
+
+    if event == 'Cancel':
+        # Confirm window in future
+        sys.exit()
 
     return values[0]
 
 
-def set_key_params(path: str) -> None:
+def set_configuration_params(path: str) -> None:
     """Creates a window where the user can create a new encoder configuration. After that, save it in the keys file
 
     Args:
@@ -46,8 +50,12 @@ def set_key_params(path: str) -> None:
         [psg.Ok(), psg.Cancel()]
     ])
 
-    _, values = window.read()
+    event, values = window.read()
     window.close()
+
+    if event == 'Cancel':
+        # Confirm window in future
+        sys.exit()
 
     name = values[0]
     length = int(values[1])
@@ -60,7 +68,7 @@ def set_key_params(path: str) -> None:
     save_key(path, name, key, password, rails)
 
 
-def copy_new_key(path: str) -> None:
+def import_configuration(path: str) -> None:
     """If the user want to importe a new key, this function creates a window where they can do it. After that, save it
     on the keys file.
 
@@ -81,8 +89,13 @@ def copy_new_key(path: str) -> None:
         [psg.Ok(), psg.Cancel()]
     ])
 
-    _, values = window.read()
+    event, values = window.read()
     window.close()
+
+    if event == 'Cancel':
+        # Confirm window in future
+        sys.exit()
+
     name = values[0]
     key = values[1]
     rails = int(values[2])
@@ -101,13 +114,13 @@ def create_new_key(path: str) -> Tuple[str, int]:
         Tuple[str, int]: The key and the rails of the selected configuration.
     """
 
-    have = have_key()
+    have = have_configuration()
 
     if have:
-        copy_new_key(path)
+        import_configuration(path)
         return select_configuration(path)
     else:
-        set_key_params(path)
+        set_configuration_params(path)
         return select_configuration(path)
 
 
@@ -141,12 +154,12 @@ def select_configuration(path: str) -> Tuple[str, int]:
             [psg.Ok(), psg.Cancel(), psg.Button('New')]
         ])
 
-        events, values = window.read()
+        event, values = window.read()
         window.close()
 
-        if events == 'New':
+        if event == 'New':
             return create_new_key(path)
-        elif events == 'Cancel':
+        elif event == 'Cancel':
             # Confirm window in future
             sys.exit()
         else:
@@ -180,8 +193,11 @@ def application() -> Tuple[str, bool]:
         [psg.Ok(), psg.Cancel()],
     ])
 
-    _, values = window.read()
+    event, values = window.read()
     window.close()
+    if event == 'Cancel':
+        # Conform window in future
+        sys.exit()
 
     return values[0], values[1]
 
@@ -203,12 +219,12 @@ def show(res: str) -> bool:
         [psg.Ok(), psg.Cancel(), psg.Button('Change Configuration')]
     ])
 
-    events, _ = window.read()
+    event, _ = window.read()
     window.close()
 
-    if events == 'Ok':
+    if event == 'Ok':
         return True
-    elif events == 'Change Configuration':
+    elif event == 'Change Configuration':
         psg.Popup('Coming soon!')
         return False
     else:
