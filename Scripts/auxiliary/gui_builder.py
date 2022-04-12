@@ -21,7 +21,7 @@ def have_configuration() -> bool:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel':
+    if event == 'Cancel' or event is None:
         # Confirm window in future
         sys.exit()
 
@@ -53,7 +53,7 @@ def set_configuration_params(path: str) -> None:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel':
+    if event == 'Cancel' or event is None:
         # Confirm window in future
         sys.exit()
 
@@ -92,7 +92,7 @@ def import_configuration(path: str) -> None:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel':
+    if event == 'Cancel' or event is None:
         # Confirm window in future
         sys.exit()
 
@@ -159,7 +159,7 @@ def select_configuration(path: str) -> Tuple[str, int]:
 
         if event == 'New':
             return create_new_key(path)
-        elif event == 'Cancel':
+        elif event == 'Cancel' or event is None:
             # Confirm window in future
             sys.exit()
         else:
@@ -195,7 +195,7 @@ def application() -> Tuple[str, bool]:
 
     event, values = window.read()
     window.close()
-    if event == 'Cancel':
+    if event == 'Cancel' or event is None:
         # Conform window in future
         sys.exit()
 
