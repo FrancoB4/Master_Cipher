@@ -18,7 +18,7 @@ named MasterCipher than use two different cipher methods to encrypt and decrypt 
 secure way. Those two cipher methods are own implementation of the Vigenere Cipher and the 
 Rail Fence Cipher, than was developed by me some time ago, and will be optimized in soon.
 
-To run the program, execute the main.py file on the shell.
+To run the program, execute the **main.py** file on the shell.
 
 ## Contributing
 
