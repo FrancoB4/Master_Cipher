@@ -17,3 +17,21 @@ The application without the GUI has a fairly simple operation, it instantiate a 
 named MasterCipher than use two different cipher methods to encrypt and decrypt text in a 
 secure way. Those two cipher methods are own implementation of the Vigenere Cipher and the 
 Rail Fence Cipher, than was developed by me some time ago, and will be optimized in soon.
+
+To run the program, execute the main.py file on the shell.
+
+## Contributing
+
+Contributions are always welcome!
+
+Just Fork it! If you want, can have a conversation with me before that. 
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at francobonfigliovazquez@gmail.com
+
+
+## Authors
+
+- [@FrancoB4](https://github.com/FrancoB4)
