@@ -29,7 +29,7 @@ Just Fork it! If you want, can have a conversation with me before that.
 
 ## Feedback
 
-If you have any feedback, please reach out to us at francobonfigliovazquez@gmail.com
+If you have any feedback, please reach out to me at francobonfigliovazquez@gmail.com
 
 
 ## Authors
