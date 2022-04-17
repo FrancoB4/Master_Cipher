@@ -6,7 +6,7 @@ PATH = './keys.yaml'
 
 
 def run():
-
+    psg.theme('DarkAmber')
     # Evalúa si existe un archivo de configuraciones, en caso de que no, crea uno.
     try:
         open(PATH, 'r', encoding='utf-8')
@@ -29,27 +29,21 @@ def run():
     # Abrimos la pestaña para cargar una configuración
     key, rails = select_configuration(PATH)
 
+    window = application()
     # Abrimos la pestaña principal de la aplicación, y retornamos los valores ingresados
     # Para que la ejecución no termine a la primera vez, creamos un bucle
     while True:
 
         # Creamos un objeto que instancie el encriptador
         encoder = MasterCipher(key, n=rails)
-        text, encode = application()
+        text, encode, window = load_application(window)
 
         if encode:
             result = encoder.encode(text)
         else:
             result = encoder.decode(text)
 
-        # Devolverá True si se presiona el botón 'Ok', y False si se presiona 'Cancel', terminando la ejecución en
-        # este último caso
-        keep_encoding = show(result)
-
-        if keep_encoding:
-            pass
-        else:
-            break
+        window['T2'].update(result)
 
     print('All works very well, keep improving')
 

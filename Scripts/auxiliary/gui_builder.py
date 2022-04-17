@@ -21,7 +21,7 @@ def have_configuration() -> bool:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel' or event is None:
+    if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
         # Confirm window in future
         sys.exit()
 
@@ -53,7 +53,7 @@ def set_configuration_params(path: str) -> None:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel' or event is None:
+    if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
         # Confirm window in future
         sys.exit()
 
@@ -92,7 +92,7 @@ def import_configuration(path: str) -> None:
     event, values = window.read()
     window.close()
 
-    if event == 'Cancel' or event is None:
+    if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
         # Confirm window in future
         sys.exit()
 
@@ -159,7 +159,7 @@ def select_configuration(path: str) -> Tuple[str, int]:
 
         if event == 'New':
             return create_new_key(path)
-        elif event == 'Cancel' or event is None:
+        elif event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
             # Confirm window in future
             sys.exit()
         else:
@@ -178,28 +178,37 @@ def select_configuration(path: str) -> Tuple[str, int]:
     sys.exit()
 
 
-def application() -> Tuple[str, bool]:
-    """Creates the main window of the program, where the user can encode or decode any text.
+def application():
+    """Creates the main window of the program, where the user can encode or decode any text
+
+    """
+
+    window = psg.Window('Master Encoder', [
+        [psg.Text('Ingrese el texto', key='T1', grab=True)],
+        [psg.Input(size=(150, 75))],
+        [psg.Radio('encode', 1, default=True), psg.Radio('decode', 1)],
+        [psg.Text('', key='T2', enable_events=True)],
+        [psg.Ok(), psg.Cancel()],
+    ], size=(250, 150))
+
+    return window
+
+
+def load_application(window) -> Tuple[str, bool, object]:
+    """Takes the main window of the program and load it.
 
     Returns:
         Tuple[str, bool]: The str is the resul of encode or decode the user input. The bool will be True
                             if the user checks the encode box and False if checks the decode box.
     """
 
-    window = psg.Window('Master Encoder', [
-        [psg.Text('Ingrese el texto')],
-        [psg.Input(size=(20, 20))],
-        [psg.Radio('encode', 1, default=True), psg.Radio('decode', 1)],
-        [psg.Ok(), psg.Cancel()],
-    ])
-
     event, values = window.read()
-    window.close()
-    if event == 'Cancel' or event is None:
+
+    if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
         # Conform window in future
         sys.exit()
 
-    return values[0], values[1]
+    return values[0], values[1], window
 
 
 def show(res: str) -> bool:
