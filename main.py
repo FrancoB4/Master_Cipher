@@ -43,9 +43,9 @@ def run():
         else:
             result = encoder.decode(text)
 
-        window['T2'].update(result)
+        window['I2'].update(result)
 
-    print('All works very well, keep improving')
+    # print('All works very well, keep improving')
 
 
 if __name__ == '__main__':

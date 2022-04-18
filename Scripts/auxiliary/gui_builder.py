@@ -46,7 +46,7 @@ def set_configuration_params(path: str) -> None:
                   'cortos\n(recomendado 6)')],
         [psg.Slider((3, 15), orientation='horizontal', default_value=25)],
         [psg.Text('\nCree una contraseña para la configuración (recuérdela bien)')],
-        [psg.Input()],
+        [psg.Input(password_char='*')],
         [psg.Ok(), psg.Cancel()]
     ])
 
@@ -85,7 +85,7 @@ def import_configuration(path: str) -> None:
                   'cortos\n(recomendado 6)')],
         [psg.Slider((3, 15), orientation='horizontal', default_value=6)],
         [psg.Text('\nCree una contraseña para la configuración (recuérdela bien)')],
-        [psg.Input()],
+        [psg.Input(password_char='*')],
         [psg.Ok(), psg.Cancel()]
     ])
 
@@ -150,7 +150,7 @@ def select_configuration(path: str) -> Tuple[str, int]:
             [psg.Text('Seleccione una configuración:')],
             [psg.Combo(configs, default_value='default')],
             [psg.Text('\nIntroduzca la contraseña de la configuración')],
-            [psg.Input()],
+            [psg.Input(password_char='*')],
             [psg.Ok(), psg.Cancel(), psg.Button('New')]
         ])
 
@@ -185,9 +185,10 @@ def application():
 
     window = psg.Window('Master Encoder', [
         [psg.Text('Ingrese el texto', key='T1', grab=True)],
-        [psg.Input(size=(150, 75))],
+        [psg.Input(size=(150, 75), key='I1')],
         [psg.Radio('encode', 1, default=True), psg.Radio('decode', 1)],
-        [psg.Text('', key='T2', enable_events=True)],
+        [psg.InputText('', use_readonly_for_disable=True, disabled=True, key='I2', text_color=psg.theme_text_color(),
+                       disabled_readonly_background_color=psg.theme_background_color(), border_width=0)],
         [psg.Ok(), psg.Cancel()],
     ], size=(250, 150))
 
@@ -208,7 +209,7 @@ def load_application(window) -> Tuple[str, bool, object]:
         # Conform window in future
         sys.exit()
 
-    return values[0], values[1], window
+    return values['I1'], values[1], window
 
 
 def show(res: str) -> bool:
