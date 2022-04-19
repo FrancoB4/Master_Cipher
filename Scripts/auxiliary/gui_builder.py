@@ -10,7 +10,7 @@ def have_configuration() -> bool:
     """If there isn't any key file, creates a window where the user is asked if they have a key and want to import it.
 
     Returns:
-        bool: True if user has a key, False if they hasn´t.
+        bool: True if user has a key, False if they haven't.
     """
 
     window = psg.Window('Bienvenido', [
@@ -22,7 +22,7 @@ def have_configuration() -> bool:
     window.close()
 
     if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
-        # Confirm window in future
+        # The confirmation window will be available in the future
         sys.exit()
 
     return values[0]
@@ -54,7 +54,7 @@ def set_configuration_params(path: str) -> None:
     window.close()
 
     if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
-        # Confirm window in future
+        # The confirmation window will be available in the future
         sys.exit()
 
     name = values[0]
@@ -93,7 +93,7 @@ def import_configuration(path: str) -> None:
     window.close()
 
     if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
-        # Confirm window in future
+        # The confirmation window will be available in the future
         sys.exit()
 
     name = values[0]
@@ -111,7 +111,7 @@ def create_new_key(path: str) -> Tuple[str, int]:
         path (str): The path of the keys file
 
     Returns:
-        Tuple[str, int]: The key and the rails of the selected configuration.
+        Tuple[str, int]: The key, and the rails of the selected configuration.
     """
 
     have = have_configuration()
@@ -144,7 +144,7 @@ def select_configuration(path: str) -> Tuple[str, int]:
             configs.append(config)
 
     # The bucle will continue up to three times if the user insert a wrong password
-    # When they inset de correct one, return the key and n rails and end the function
+    # When they inset de correct one, return the key and n rails and end the function.
     for i in range(3):
         window = psg.Window('Selección de configuración', [
             [psg.Text('Seleccione una configuración:')],
@@ -206,7 +206,7 @@ def load_application(window) -> Tuple[str, bool, object]:
     event, values = window.read()
 
     if event == 'Cancel' or event is None or event == psg.WIN_CLOSED:
-        # Conform window in future
+        # The confirmation window will be available in the future
         sys.exit()
 
     return values['I1'], values[1], window

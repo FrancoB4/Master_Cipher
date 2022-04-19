@@ -42,7 +42,7 @@ class RailFenceCipher:
         
         return self.result
 
-    def decode(self, string: str, n) -> str:
+    def decode(self, string: str, n: int) -> str:
         self.rails = []
         self.n_str = ''
         self.count = {}
@@ -59,7 +59,7 @@ class RailFenceCipher:
         if len(self.n_str) > len(string):
             n_str = self.n_str[:len(string)]
 
-        for i in n_str:
+        for i in self.n_str:
             try:
                 self.count[i] += 1
             except KeyError:
@@ -69,7 +69,7 @@ class RailFenceCipher:
             self.rails.append([k for k in string[:i]])
             string = string[i:]
 
-        for i in n_str:
+        for i in self.n_str:
             self.result += self.rails[int(i) - 1][0]
             self.rails[int(i) - 1].pop(0)
 
