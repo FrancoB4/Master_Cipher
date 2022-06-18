@@ -209,7 +209,7 @@ def load_application(window) -> Tuple[str, bool, object]:
         # The confirmation window will be available in the future
         sys.exit()
 
-    return values['I1'], values[1], window
+    return values['I1'], values[0], window
 
 
 def show(res: str) -> bool:
